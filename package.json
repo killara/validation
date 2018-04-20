@@ -1,0 +1,40 @@
+{
+  "name": "@killara/validation",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint test lib index.js",
+    "fix": "npm run lint -- --fix",
+    "test": "jest --forceExit",
+    "test-cov": "npm run test -- --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/killara/validation.git"
+  },
+  "keywords": [],
+  "author": "Runrioter <runrioter@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/killara/validation/issues"
+  },
+  "homepage": "https://github.com/killara/validation#readme",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-egg": "^7.0.0",
+    "eslint-plugin-jest": "^21.15.1",
+    "jest": "^22.4.3"
+  },
+  "jest": {
+    "coverageReporters": [
+      "text-summary",
+      "lcov"
+    ],
+    "bail": true,
+    "testEnvironment": "node"
+  },
+  "dependencies": {
+    "txl": "^1.0.0"
+  }
+}
