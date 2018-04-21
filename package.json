@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint test lib index.js",
     "fix": "npm run lint -- --fix",
-    "test": "jest --forceExit",
+    "test": "npm run lint && jest --forceExit",
     "test-cov": "npm run test -- --coverage"
   },
   "repository": {
