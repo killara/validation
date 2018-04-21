@@ -35,6 +35,7 @@
     "testEnvironment": "node"
   },
   "dependencies": {
+    "@killara/is": "^1.1.2",
     "txl": "^1.0.0"
   }
 }
