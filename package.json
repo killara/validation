@@ -9,6 +9,10 @@
     "test": "npm run lint && jest --forceExit",
     "test-cov": "npm run test -- --coverage"
   },
+  "files": [
+    "lib",
+    "index.js"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/killara/validation.git"
@@ -35,7 +39,7 @@
     "testEnvironment": "node"
   },
   "dependencies": {
-    "@killara/is": "^1.1.2",
+    "@killara/is": "^1.1.3",
     "txl": "^1.0.0"
   }
 }

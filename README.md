@@ -3,6 +3,8 @@
 [![npm](https://img.shields.io/npm/v/@killara/validation.svg)](https://www.npmjs.com/package/@killara/validation)
 [![Travis branch](https://img.shields.io/travis/killara/validation/master.svg)](https://travis-ci.org/killara/validation)
 [![Codecov branch](https://img.shields.io/codecov/c/github/killara/validation/master.svg)](https://codecov.io/github/killara/validation?branch=master)
+[![David deps](https://img.shields.io/david/killara/validation.svg)](https://david-dm.org/killara/validation)
+[![Known Vulnerabilities](https://snyk.io/test/npm/@killara/validation/badge.svg)](https://snyk.io/test/npm/@killara/validation)
 [![npm download](https://img.shields.io/npm/dt/@killara/validation.svg)](https://www.npmjs.com/package/@killara/validation)
 
 [**WIP**] A validator for HTTP request parameters
