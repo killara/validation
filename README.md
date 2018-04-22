@@ -41,20 +41,41 @@ const errors = await validation.validate(values, rules);
 
 ## Rule
 
-* required
-  * options (default: false)
+* accepted
+  * options (true)
     * type: `boolean`
     * example
-      * `required: true`
+      * `accepted: true`
 * alpha
   * options (default: may be any length)
     * type: `object`
     * properties
       * len
     * example
+      * `alpha: true`
       * `alpha: { len: 6 }`
+* email
+  * options
+    * type: `boolean`
+    * example
+      * `email: true`
+* numeric
+  * options (default: may be any length)
+    * type: `object`
+    * properties
+      * len
+    * example
+      * `numeric: true`
+      * `numeric: { len: 6 }`
 * regexp
-  * options (no default: an object option is a must)
+  * options (no default: an RegExp object is a must)
     * type: `regexp`
     * example
+      * `regexp: new RegExp(/abc/, 'i')`
       * `regexp: /^[0-9a-zA-z]{8:16}$/`
+* required
+  * options (default: false)
+    * type: `boolean`
+    * example
+      * `required: true`
+      * `required: false`
