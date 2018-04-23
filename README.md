@@ -20,6 +20,7 @@ npm i @killara/validation -S
 * It supports three kinds of rule declarations. String inline rules, object rules and array rules.
 * It supports async validation rule. For example, unique validation for only specific record in database table.
 * It supports custom rules
+* It supports custom error messages, or it uses default messages.
 * WIP...
 
 ## Usage
@@ -40,6 +41,11 @@ const rules = {
     regexp: /^[a-z]{6,18}$/,
   },
   sex: [ 'male', 'female' ],
+};
+
+const messages = {
+  'username.alpha': 'The field must be entirely alphabetic characters with the length of ${len}'
+  'sex.in': 'The field should be included in the list of ${ _items_.join(", ") }'
 };
 
 const errors = await validation.validate(values, rules);
