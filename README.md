@@ -30,7 +30,7 @@ const validation = require('@killara/validation');
 const values = {
   username: 'admins',
   password: 'abcdef',
-  sexy: 'male',
+  sex: 'male',
 };
 
 const rules = {
@@ -39,7 +39,7 @@ const rules = {
     required: true,
     regexp: /^[a-z]{6,18}$/,
   },
-  sexy: [ 'male', 'female' ],
+  sex: [ 'male', 'female' ],
 };
 
 const errors = await validation.validate(values, rules);
@@ -63,13 +63,13 @@ if (!errors) {
   * string style: `field: 'email:true'`
   * object style: `field: { email: true }`
 * in
-  * `array` style: `field: [ 'basketball', football ]`
-  * object style: `field: { in: [ 'basketball', football ] }`
+  * `array` style: `field: [ 'basketball', 'football' ]`
+  * object style: `field: { in: [ 'basketball', 'football' ] }`
 * numeric
   * string style: `field: 'numeric:6'` or `field: 'numeric:len=6'`
   * object style: `field: { numeric: { len: 6 } }`
 * regexp
-  * object style: `regexp: new RegExp(/abc/, 'i')` or `regexp: /^[0-9a-zA-z]{8:16}$/`
+  * object style: `regexp: new RegExp(/abc/, 'i')` or `regexp: /^[0-9a-zA-z]{8,16}$/`
 * required
   * string style: `field: 'required'` or `field: 'required:true'`
   * object style: `field: { required: true }`
