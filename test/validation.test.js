@@ -540,45 +540,59 @@ describe('validation', () => {
     });
   });
 
-  describe('custom rules', () => {
-    describe('captcha', () => {
-      test('addRule', async () => {
-        expect.assertions(1);
-        const values = {
-          captcha: '01234abc',
-          captcha1: '01234abcd',
-        };
-        const rules = {
-          captcha: {
-            required: true,
-            captcha: { len: 8 },
-          },
-          captcha1: {
-            required: true,
-            captcha: { len: 8 },
-          },
-        };
-        validation.addRule('captcha', field => options => params => {
-          options = Object.assign({ len: 0 }, options);
-          const value = params[field];
-          const { len } = options;
-          if (len) {
-            const regexp = new RegExp(`^[0-9a-z]{${len}}$`);
-            return regexp.test(value);
-          }
-          return /^[0-9a-z]+$/.test(value);
-        });
-        const expected = [
-          { code: 'invalid', field: 'captcha1', message: 'the captcha should be 8 length.' },
-        ];
-        await expect(validation.validate(values, rules, { 'captcha1.captcha': 'the captcha should be ${len} length.' })).resolves.toEqual(expected);
+  describe('#addRule', () => {
+    test('custom rule', async () => {
+      expect.assertions(1);
+      const values = {
+        captcha: '01234abc',
+        captcha1: '01234abcd',
+      };
+      const rules = {
+        captcha: {
+          required: true,
+          captcha: { len: 8 },
+        },
+        captcha1: {
+          required: true,
+          captcha: { len: 8 },
+        },
+      };
+      validation.addRule('captcha', field => options => params => {
+        options = Object.assign({ len: 0 }, options);
+        const value = params[field];
+        const { len } = options;
+        if (len) {
+          const regexp = new RegExp(`^[0-9a-z]{${len}}$`);
+          return regexp.test(value);
+        }
+        return /^[0-9a-z]+$/.test(value);
       });
-      test('addRule throw Error', () => {
-        expect(() => validation.addRule('captcha', {})).toThrowError('Rule should be function');
-        expect(() => {
-          validation.addRule('alpha', () => {});
-        }).toThrowError('Rule alpha has existed');
-      });
+      const expected = [
+        { code: 'invalid', field: 'captcha1', message: 'the captcha should be 8 length.' },
+      ];
+      await expect(validation.validate(values, rules, { 'captcha1.captcha': 'the captcha should be ${len} length.' })).resolves.toEqual(expected);
+    });
+    test('throw Error', () => {
+      expect(() => validation.addRule('captcha', {})).toThrowError('Rule should be function');
+      expect(() => {
+        validation.addRule('alpha', () => {});
+      }).toThrowError('Rule alpha has existed');
+    });
+  });
+
+  describe('#addMessage', () => {
+    test('custom message', () => {
+      validation.addMessage('captcha', 'the captcha should be 8 length.');
+      const got = validation.constructor.messages().captcha;
+      expect(got).toEqual('the captcha should be 8 length.');
+    });
+    test('throw Error', () => {
+      expect(() => {
+        validation.addMessage('captcha', () => {});
+      }).toThrowError('Message should be a string');
+      expect(() => {
+        validation.addMessage('required', 'another message');
+      }).toThrowError('Message required has existed. Use validate function param instead.');
     });
   });
 });
