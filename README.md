@@ -75,7 +75,8 @@ if (!errors) {
   * string style: `field: 'numeric:6'` or `field: 'numeric:len=6'`
   * object style: `field: { numeric: { len: 6 } }`
 * regexp
-  * object style: `regexp: new RegExp(/abc/, 'i')` or `regexp: /^[0-9a-zA-z]{8,16}$/`
+  * string style: `field: 'regexp:"^123456$"'`
+  * object style: `field: { regexp: new RegExp(/abc/, 'i') }` or `field: { regexp: /^[0-9a-zA-z]{8,16}$/ }`
 * required
   * string style: `field: 'required'` or `field: 'required:true'`
   * object style: `field: { required: true }`

@@ -310,9 +310,7 @@ describe('validation', () => {
             password: 'admin',
           };
           const rules = {
-            username: {
-              required: true,
-            },
+            username: 'required:true',
           };
           const expected = [{ code: 'missing_field', field: 'username', message: 'The field is a must' }];
           return expect(validation.validate(values, rules)).resolves.toEqual(expected);
@@ -323,9 +321,7 @@ describe('validation', () => {
             password: 'admin',
           };
           const rules = {
-            username: {
-              required: false,
-            },
+            username: 'required: false',
           };
           return expect(validation.validate(values, rules)).resolves.toBeUndefined();
         });
@@ -338,10 +334,7 @@ describe('validation', () => {
             username: 'admin',
           };
           const rules = {
-            username: {
-              required: true,
-              alpha: true,
-            },
+            username: 'required:true|alpha:true',
           };
           return expect(validation.validate(values, rules)).resolves.toBeUndefined();
         });
@@ -351,13 +344,24 @@ describe('validation', () => {
             username: 'admin',
           };
           const rules = {
-            username: {
-              required: true,
-              alpha: { len: 6 },
-            },
+            username: 'required:true|alpha:len=6',
           };
           const messages = {
             'username.alpha': 'The field only contains ${len} letters.',
+          };
+          const expected = [{ code: 'invalid', field: 'username', message: 'The field only contains 6 letters.' }];
+          return expect(validation.validate(values, rules, messages)).resolves.toEqual(expected);
+        });
+        test('alpha:6', () => {
+          expect.assertions(1);
+          const values = {
+            username: 'admin',
+          };
+          const rules = {
+            username: 'required:true|alpha:6',
+          };
+          const messages = {
+            'username.alpha': 'The field only contains 6 letters.',
           };
           const expected = [{ code: 'invalid', field: 'username', message: 'The field only contains 6 letters.' }];
           return expect(validation.validate(values, rules, messages)).resolves.toEqual(expected);
@@ -371,10 +375,7 @@ describe('validation', () => {
             username: 'admin',
           };
           const rules = {
-            username: {
-              required: true,
-              regexp: {},
-            },
+            username: 'required|regexp:{}',
           };
           await expect(validation.validate(values, rules)).rejects.toThrowError('Options for regexp rule should be a regular expression');
         });
@@ -384,10 +385,7 @@ describe('validation', () => {
             password: '123456',
           };
           const rules = {
-            password: {
-              required: true,
-              regexp: /^123456$/,
-            },
+            password: 'required|regexp:"^123456$"',
           };
           await expect(validation.validate(values, rules)).resolves.toBeUndefined();
         });
@@ -400,10 +398,7 @@ describe('validation', () => {
             TermsofService: 'on',
           };
           const rules = {
-            TermsofService: {
-              required: true,
-              accepted: true,
-            },
+            TermsofService: 'required:true|accepted',
           };
           await expect(validation.validate(values, rules)).resolves.toBeUndefined();
         });
@@ -416,10 +411,7 @@ describe('validation', () => {
             number: '012345',
           };
           const rules = {
-            number: {
-              required: true,
-              numeric: true,
-            },
+            number: 'required|numeric',
           };
           return expect(validation.validate(values, rules)).resolves.toBeUndefined();
         });
@@ -429,10 +421,17 @@ describe('validation', () => {
             number: '012345',
           };
           const rules = {
-            number: {
-              required: true,
-              numeric: { len: 6 },
-            },
+            number: 'required|numeric:len=6',
+          };
+          return expect(validation.validate(values, rules)).resolves.toBeUndefined();
+        });
+        test('numeric:6', () => {
+          expect.assertions(1);
+          const values = {
+            number: '012345',
+          };
+          const rules = {
+            number: 'required|numeric:6',
           };
           return expect(validation.validate(values, rules)).resolves.toBeUndefined();
         });
@@ -442,10 +441,7 @@ describe('validation', () => {
             number: '0123456',
           };
           const rules = {
-            number: {
-              required: true,
-              numeric: { len: 6 },
-            },
+            number: 'required|numeric:len=6',
           };
           const messages = {
             'number.numeric': 'The field shoud be a numeric string with length ${len}',
@@ -461,20 +457,16 @@ describe('validation', () => {
             email: 'runrioter@gmail.com',
           };
           const rules = {
-            email: {
-              email: true,
-            },
+            email: 'email:true',
           };
           await expect(validation.validate(values, rules)).resolves.toBeUndefined();
         });
-        test('false', async () => {
+        test('invalid email', async () => {
           const values = {
             email: 'runriotergmail.com',
           };
           const rules = {
-            email: {
-              email: false,
-            },
+            email: 'email:true',
           };
           const expected = [{ code: 'invalid', field: 'email', message: 'The field should be a valid email address.' }];
           await expect(validation.validate(values, rules)).resolves.toEqual(expected);

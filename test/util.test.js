@@ -58,4 +58,10 @@ describe('parseRules', () => {
     };
     expect(util.parseRules('numeric:len=any')).toEqual(expected);
   });
+  test('regexp:"^123456$"', () => {
+    const expected = {
+      regexp: '^123456$',
+    };
+    expect(util.parseRules('regexp:"^123456$"')).toEqual(expected);
+  });
 });
