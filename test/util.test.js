@@ -33,11 +33,12 @@ describe('parseRules', () => {
     };
     expect(util.parseRules('bail:false|required|numeric:6')).toEqual(expected);
   });
-  test('numeric:len=6', () => {
+  test('required:|numeric:len=6', () => {
     const expected = {
+      required: true,
       numeric: { len: 6 },
     };
-    expect(util.parseRules('numeric:len=6')).toEqual(expected);
+    expect(util.parseRules('required:|numeric:len=6')).toEqual(expected);
   });
   test('numeric:len=6, |required', () => {
     const expected = {
@@ -63,5 +64,11 @@ describe('parseRules', () => {
       regexp: '^123456$',
     };
     expect(util.parseRules('regexp:"^123456$"')).toEqual(expected);
+  });
+  test('regexp:"^[a-z0-9!()-._@#]{8,18}$"', () => {
+    const expected = {
+      regexp: '^[a-z0-9!()-._@#]{8,18}$',
+    };
+    expect(util.parseRules('regexp:"^[a-z0-9!()-._@#]{8,18}$"')).toEqual(expected);
   });
 });
