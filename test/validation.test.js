@@ -25,6 +25,7 @@ describe('validation', () => {
 
   describe('built-in rules', () => {
     describe('object rules', () => {
+
       describe('bail', () => {
         test('true', () => {
           expect.assertions(1);
@@ -270,6 +271,57 @@ describe('validation', () => {
           await expect(validation.validate(values, rules)).resolves.toBeUndefined();
         });
       });
+
+      describe('date', () => {
+        test('not valid date', async () => {
+          expect.assertions(1);
+          const values = {
+            date1: '0000-01-01',
+            date2: '0001-00-01',
+            date3: '2001-1-01',
+            date4: '0001-13-01',
+            date5: '0001-01-32',
+            date6: '10001-01-01',
+          };
+          const rules = {
+            date1: { date: true },
+            date2: { date: true },
+            date3: { date: true },
+            date4: { date: true },
+            date5: { date: true },
+            date6: { date: true },
+          };
+          const expected = [
+            { code: 'invalid', field: 'date1', message: 'The field shoud be a valid date' },
+            { code: 'invalid', field: 'date2', message: 'The field shoud be a valid date' },
+            { code: 'invalid', field: 'date3', message: 'The field shoud be a valid date' },
+            { code: 'invalid', field: 'date4', message: 'The field shoud be a valid date' },
+            { code: 'invalid', field: 'date5', message: 'The field shoud be a valid date' },
+            { code: 'invalid', field: 'date6', message: 'The field shoud be a valid date' },
+          ];
+          await expect(validation.validate(values, rules)).resolves.toEqual(expected);
+        });
+        test('valid date', async () => {
+          expect.assertions(1);
+          const values = {
+            date1: '2018-01-01',
+            date2: '2001-02-28',
+            date3: '2000-02-29',
+            date4: '2018-12-01',
+            date5: '1001-01-31',
+            date6: '1000-01-01',
+          };
+          const rules = {
+            date1: { date: true },
+            date2: { date: true },
+            date3: { date: true },
+            date4: { date: true },
+            date5: { date: true },
+            date6: { date: true },
+          };
+          await expect(validation.validate(values, rules)).resolves.toBeUndefined();
+        });
+      });
     });
 
     describe('string rules', () => {
@@ -470,6 +522,57 @@ describe('validation', () => {
           };
           const expected = [{ code: 'invalid', field: 'email', message: 'The field should be a valid email address.' }];
           await expect(validation.validate(values, rules)).resolves.toEqual(expected);
+        });
+      });
+
+      describe('date', () => {
+        test('not valid date', async () => {
+          expect.assertions(1);
+          const values = {
+            date1: '0000-01-01',
+            date2: '0001-00-01',
+            date3: '2001-1-01',
+            date4: '0001-13-01',
+            date5: '0001-01-32',
+            date6: '10001-01-01',
+          };
+          const rules = {
+            date1: 'date',
+            date2: 'date',
+            date3: 'date',
+            date4: 'date',
+            date5: 'date',
+            date6: 'date',
+          };
+          const expected = [
+            { code: 'invalid', field: 'date1', message: 'The field shoud be a valid date' },
+            { code: 'invalid', field: 'date2', message: 'The field shoud be a valid date' },
+            { code: 'invalid', field: 'date3', message: 'The field shoud be a valid date' },
+            { code: 'invalid', field: 'date4', message: 'The field shoud be a valid date' },
+            { code: 'invalid', field: 'date5', message: 'The field shoud be a valid date' },
+            { code: 'invalid', field: 'date6', message: 'The field shoud be a valid date' },
+          ];
+          await expect(validation.validate(values, rules)).resolves.toEqual(expected);
+        });
+        test('valid date', async () => {
+          expect.assertions(1);
+          const values = {
+            date1: '2018-01-01',
+            date2: '2001-02-28',
+            date3: '2000-02-29',
+            date4: '2018-12-01',
+            date5: '1001-01-31',
+            date6: '1000-01-01',
+          };
+          const rules = {
+            date1: 'date',
+            date2: 'date',
+            date3: 'date',
+            date4: 'date',
+            date5: 'date',
+            date6: 'date',
+          };
+          await expect(validation.validate(values, rules)).resolves.toBeUndefined();
         });
       });
     });
