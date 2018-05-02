@@ -322,6 +322,54 @@ describe('validation', () => {
           await expect(validation.validate(values, rules)).resolves.toBeUndefined();
         });
       });
+
+      describe('money', () => {
+        test('not valid money', async () => {
+          expect.assertions(1);
+          const values = {
+            money1: '00.1',
+            money2: '1.',
+            money3: '011',
+            money4: '11.123',
+            money5: '11.0',
+          };
+          const rules = {
+            money1: { money: { decimal: 2 } },
+            money2: { money: 2 },
+            money3: { money: 2 },
+            money4: { money: 2 },
+            money5: { money: 0 },
+          };
+          const expected = [
+            { code: 'invalid', field: 'money1', message: 'The field value shoud be a money format' },
+            { code: 'invalid', field: 'money2', message: 'The field value shoud be a money format' },
+            { code: 'invalid', field: 'money3', message: 'The field value shoud be a money format' },
+            { code: 'invalid', field: 'money4', message: 'The field value shoud be a money format' },
+            { code: 'invalid', field: 'money5', message: 'The field value shoud be a money format' },
+          ];
+          await expect(validation.validate(values, rules)).resolves.toEqual(expected);
+        });
+        test('valid money', async () => {
+          expect.assertions(1);
+          const values = {
+            money1: '0.1',
+            money2: '0.11',
+            money3: '12',
+            money4: '12.12',
+            money5: '0',
+            money6: '10',
+          };
+          const rules = {
+            money1: { money: { decimal: 2 } },
+            money2: { money: { decimal: 2 } },
+            money3: { money: { decimal: 1 } },
+            money4: { money: true },
+            money5: { money: 0 },
+            money6: { money: 0 },
+          };
+          await expect(validation.validate(values, rules)).resolves.toBeUndefined();
+        });
+      });
     });
 
     describe('string rules', () => {
@@ -571,6 +619,54 @@ describe('validation', () => {
             date4: 'date',
             date5: 'date',
             date6: 'date',
+          };
+          await expect(validation.validate(values, rules)).resolves.toBeUndefined();
+        });
+      });
+
+      describe('money', () => {
+        test('not valid money', async () => {
+          expect.assertions(1);
+          const values = {
+            money1: '00.1',
+            money2: '1.',
+            money3: '011',
+            money4: '11.123',
+            money5: '11.0',
+          };
+          const rules = {
+            money1: 'money:decimal=2',
+            money2: 'money:2',
+            money3: 'money:2',
+            money4: 'money:2',
+            money5: 'money:0',
+          };
+          const expected = [
+            { code: 'invalid', field: 'money1', message: 'The field value shoud be a money format' },
+            { code: 'invalid', field: 'money2', message: 'The field value shoud be a money format' },
+            { code: 'invalid', field: 'money3', message: 'The field value shoud be a money format' },
+            { code: 'invalid', field: 'money4', message: 'The field value shoud be a money format' },
+            { code: 'invalid', field: 'money5', message: 'The field value shoud be a money format' },
+          ];
+          await expect(validation.validate(values, rules)).resolves.toEqual(expected);
+        });
+        test('valid money', async () => {
+          expect.assertions(1);
+          const values = {
+            money1: '0.1',
+            money2: '0.11',
+            money3: '12',
+            money4: '12.12',
+            money5: '0',
+            money6: '10',
+          };
+          const rules = {
+            money1: 'money:decimal=2',
+            money2: 'money:decimal=2',
+            money3: 'money:decimal=2',
+            money4: 'money',
+            money5: 'money:0',
+            money6: 'money:0',
           };
           await expect(validation.validate(values, rules)).resolves.toBeUndefined();
         });
