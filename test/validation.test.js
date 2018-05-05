@@ -323,6 +323,61 @@ describe('validation', () => {
         });
       });
 
+      describe('time', () => {
+        test('not valid time', async () => {
+          expect.assertions(1);
+          const values = {
+            time: '24:00:00',
+          };
+          const rules = {
+            time: { time: true },
+          };
+          const expected = [
+            { code: 'invalid', field: 'time', message: 'The field shoud be a valid time' },
+          ];
+          await expect(validation.validate(values, rules)).resolves.toEqual(expected);
+        });
+        test('valid time', async () => {
+          expect.assertions(1);
+          const values = {
+            time: '00:00:00',
+          };
+          const rules = {
+            time: { time: true },
+          };
+          await expect(validation.validate(values, rules)).resolves.toBeUndefined();
+        });
+      });
+
+      describe('datetime', () => {
+        test('not valid datetime', async () => {
+          expect.assertions(1);
+          const values = {
+            datetime1: '2000-13-32 24:00:00',
+            datetime2: '2000-13-32',
+          };
+          const rules = {
+            datetime1: { datetime: true },
+            datetime2: { datetime: true },
+          };
+          const expected = [
+            { code: 'invalid', field: 'datetime1', message: 'The field shoud be a valid datetime' },
+            { code: 'invalid', field: 'datetime2', message: 'The field shoud be a valid datetime' },
+          ];
+          await expect(validation.validate(values, rules)).resolves.toEqual(expected);
+        });
+        test('valid datetime', async () => {
+          expect.assertions(1);
+          const values = {
+            datetime: '2000-12-31 00:00:00',
+          };
+          const rules = {
+            datetime: { datetime: true },
+          };
+          await expect(validation.validate(values, rules)).resolves.toBeUndefined();
+        });
+      });
+
       describe('money', () => {
         test('not valid money', async () => {
           expect.assertions(1);
@@ -619,6 +674,61 @@ describe('validation', () => {
             date4: 'date',
             date5: 'date',
             date6: 'date',
+          };
+          await expect(validation.validate(values, rules)).resolves.toBeUndefined();
+        });
+      });
+
+      describe('time', () => {
+        test('not valid time', async () => {
+          expect.assertions(1);
+          const values = {
+            time: '24:00:00',
+          };
+          const rules = {
+            time: 'time',
+          };
+          const expected = [
+            { code: 'invalid', field: 'time', message: 'The field shoud be a valid time' },
+          ];
+          await expect(validation.validate(values, rules)).resolves.toEqual(expected);
+        });
+        test('valid time', async () => {
+          expect.assertions(1);
+          const values = {
+            time: '00:00:00',
+          };
+          const rules = {
+            time: 'time',
+          };
+          await expect(validation.validate(values, rules)).resolves.toBeUndefined();
+        });
+      });
+
+      describe('datetime', () => {
+        test('not valid datetime', async () => {
+          expect.assertions(1);
+          const values = {
+            datetime1: '2000-13-32 24:00:00',
+            datetime2: '2000-13-32',
+          };
+          const rules = {
+            datetime1: 'datetime',
+            datetime2: 'datetime',
+          };
+          const expected = [
+            { code: 'invalid', field: 'datetime1', message: 'The field shoud be a valid datetime' },
+            { code: 'invalid', field: 'datetime2', message: 'The field shoud be a valid datetime' },
+          ];
+          await expect(validation.validate(values, rules)).resolves.toEqual(expected);
+        });
+        test('valid datetime', async () => {
+          expect.assertions(1);
+          const values = {
+            datetime: '2000-12-31 00:00:00',
+          };
+          const rules = {
+            datetime: 'datetime',
           };
           await expect(validation.validate(values, rules)).resolves.toBeUndefined();
         });

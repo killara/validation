@@ -68,6 +68,12 @@ if (!errors) {
 * date
   * string style: `field: 'date'`
   * object style: `field: { date: true }`
+* datetime
+  * string style: `field: 'datetime'`
+  * object style: `field: { datetime: true }`
+* time
+  * string style: `field: 'time'`
+  * object style: `field: { time: true }`
 * email
   * string style: `field: 'email:true'`
   * object style: `field: { email: true }`

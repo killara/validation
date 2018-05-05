@@ -17,6 +17,42 @@ describe('isEmpty', () => {
   });
 });
 
+describe('isDate', () => {
+  test('valid date', () => {
+    expect(util.isDate('2018-01-01')).toBeTruthy();
+    expect(util.isDate('2001-02-28')).toBeTruthy();
+    expect(util.isDate('2000-02-29')).toBeTruthy();
+    expect(util.isDate('2018-12-01')).toBeTruthy();
+    expect(util.isDate('1001-01-31')).toBeTruthy();
+    expect(util.isDate('1000-01-01')).toBeTruthy();
+  });
+  test('invalid date', () => {
+    expect(util.isDate('0000-01-01')).toBeFalsy();
+    expect(util.isDate('2001-00-01')).toBeFalsy();
+    expect(util.isDate('2001-13-01')).toBeFalsy();
+    expect(util.isDate('2001-01-32')).toBeFalsy();
+    expect(util.isDate('2001-1-01')).toBeFalsy();
+    expect(util.isDate('10001-01-01')).toBeFalsy();
+  });
+});
+
+describe('isTime', () => {
+  test('valid time', () => {
+    expect(util.isTime('00:00:00')).toBeTruthy();
+    expect(util.isTime('01:01:00')).toBeTruthy();
+    expect(util.isTime('01:01:59')).toBeTruthy();
+    expect(util.isTime('01:00:00')).toBeTruthy();
+    expect(util.isTime('01:59:00')).toBeTruthy();
+    expect(util.isTime('23:59:59')).toBeTruthy();
+  });
+  test('invalid time', () => {
+    expect(util.isTime('01:01:60')).toBeFalsy();
+    expect(util.isTime('010:01:60')).toBeFalsy();
+    expect(util.isTime('01:60:00')).toBeFalsy();
+    expect(util.isTime('24:00:00')).toBeFalsy();
+  });
+});
+
 describe('parseRules', () => {
   test('|required:true||alpha:any', () => {
     const expected = {
