@@ -21,12 +21,12 @@ npm i @killara/validation -S
 * It supports async validation rule. For example, unique validation for only specific record in database table.
 * It supports custom rules
 * It supports custom error messages, or it uses default messages.
-* WIP...
 
 ## Usage
 
 ```js
-const validation = require('@killara/validation');
+const Validation = require('@killara/validation');
+const validation = new Validation();
 
 const values = {
   username: 'admins',
@@ -92,3 +92,18 @@ if (!errors) {
 * required
   * string style: `field: 'required'` or `field: 'required:true'`
   * object style: `field: { required: true }`
+
+## API
+
+* #constructor(options?: object)
+  * Initialize with options (cant include `options` properties)
+* #async validate(params: object, rules?: object, messages?: object)
+  * Validate params
+* #addRule(name: string, ruleFunc: ruleFunc: (field: string) => (context: object) => (params: object) => bool)
+  * Add custom rule
+* #addMessage(name: string, message: string)
+  * Add custom message
+
+## License
+
+[MIT](LICENSE)

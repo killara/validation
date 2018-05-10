@@ -1,8 +1,17 @@
 'use strict';
 
-const validation = require('..');
+const Validation = require('..');
+const validation = new Validation();
 
 describe('validation', () => {
+
+  describe('#constructor', () => {
+    test('can not create an instance of Validation with a options with a `options` properties', () => {
+      expect(() => {
+        new Validation({ options: {} });
+      }).toThrowError('Options can not have `options` properties');
+    });
+  });
 
   describe('#parseRule', () => {
     test('just support string, array and object rules', () => {
@@ -866,7 +875,8 @@ describe('validation', () => {
           captcha: { len: 8 },
         },
       };
-      validation.addRule('captcha', field => options => params => {
+      validation.addRule('captcha', field => context => params => {
+        let { options } = context;
         options = Object.assign({ len: 0 }, options);
         const value = params[field];
         const { len } = options;

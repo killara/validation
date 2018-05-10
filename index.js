@@ -1,5 +1,3 @@
 'use strict';
 
-const Validation = require('./lib/validation');
-
-module.exports = new Validation();
+module.exports = require('./lib/validation');
