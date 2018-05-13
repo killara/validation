@@ -48,7 +48,7 @@ const messages = {
   'sex.in': 'The field should be included in the list of ${ _items_.join(", ") }'
 };
 
-const errors = await validation.validate(values, rules);
+const errors = await validation.validate(values, rules, messages);
 
 if (!errors) {
   // all validations passed

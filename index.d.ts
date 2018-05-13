@@ -3,7 +3,7 @@ declare class Validation {
 
   constructor(context?: Validation.Context);
 
-  validate(params: Validation.Params, rules: Validation.Rules, messages: Validation.Messages): Promise<Validation.Error[]>;
+  validate(params: Validation.Params, rules?: Validation.Rules, messages?: Validation.Messages): Promise<Validation.Error[]>;
 
   addRule(name: string, ruleFunc: Validation.RuleFunc): void;
 
@@ -17,6 +17,7 @@ declare namespace Validation {
    */
   export interface Context {
     [contextKey: string]: any;
+    options?: never;
   }
 
   export interface Params {
@@ -24,11 +25,11 @@ declare namespace Validation {
   }
 
   export interface Rules {
-    [fieldName: string]: string | Array<any> | Object;
+    [fieldName: string]: Rule;
   }
 
   export interface Messages {
-    [fieldName: string]: string | Array<any> | Object;
+    [fieldName: string]: string;
   }
 
   export interface Error {
@@ -37,7 +38,12 @@ declare namespace Validation {
     message: string;
   }
 
+  export interface ObjectRule {
+    [ruleName: string]: Object;
+  }
+
   export type RuleFunc = (field: string) => (context: Object) => (params: Object) => boolean;
+  export type Rule = string | Array<any> | ObjectRule;
 
 }
 
