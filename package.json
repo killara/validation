@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "",
   "main": "index.js",
+  "typings": "index.d.ts",
   "scripts": {
     "lint": "eslint test lib index.js",
     "fix": "npm run lint -- --fix",
