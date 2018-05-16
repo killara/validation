@@ -107,4 +107,10 @@ describe('parseRules', () => {
     };
     expect(util.parseRules('regexp:"^[a-z0-9!()-._@#]{8,18}$"')).toEqual(expected);
   });
+  test('confirmed', () => {
+    const expected = {
+      confirmed: 'password_confirmed',
+    };
+    expect(util.parseRules('confirmed:"password_confirmed"')).toEqual(expected);
+  });
 });

@@ -434,6 +434,69 @@ describe('validation', () => {
           await expect(validation.validate(values, rules)).resolves.toBeUndefined();
         });
       });
+
+      describe('confirmed', () => {
+        test('use default field', async () => {
+          expect.assertions(1);
+          const values = {
+            password: '123456',
+            password_confirmation: '12345',
+            password1: '123456',
+            password1_confirmatio: '123456',
+            password2: '123456',
+            password2_confirmation: '123456',
+          };
+          const rules = {
+            password: {
+              required: true,
+              confirmed: true,
+            },
+            password1: {
+              required: true,
+              confirmed: true,
+            },
+            password2: {
+              required: true,
+              confirmed: true,
+            },
+          };
+          const expected = [
+            { code: 'invalid', field: 'password', message: 'The two input shoud be equal' },
+            { code: 'invalid', field: 'password1', message: 'The two input shoud be equal' },
+          ];
+          await expect(validation.validate(values, rules)).resolves.toEqual(expected);
+        });
+        test('use custom field name', async () => {
+          expect.assertions(1);
+          const values = {
+            password: '123456',
+            password_again: '12345',
+            password1: '123456',
+            password1_agai: '123456',
+            password2: '123456',
+            password2_again: '123456',
+          };
+          const rules = {
+            password: {
+              required: true,
+              confirmed: 'password_again',
+            },
+            password1: {
+              required: true,
+              confirmed: 'password1_again',
+            },
+            password2: {
+              required: true,
+              confirmed: 'password2_again',
+            },
+          };
+          const expected = [
+            { code: 'invalid', field: 'password', message: 'The two input shoud be equal' },
+            { code: 'invalid', field: 'password1', message: 'The two input shoud be equal' },
+          ];
+          await expect(validation.validate(values, rules)).resolves.toEqual(expected);
+        });
+      });
     });
 
     describe('string rules', () => {
@@ -788,6 +851,51 @@ describe('validation', () => {
             money6: 'money:0',
           };
           await expect(validation.validate(values, rules)).resolves.toBeUndefined();
+        });
+      });
+
+      describe('confirmed', () => {
+        test('use default field', async () => {
+          expect.assertions(1);
+          const values = {
+            password: '123456',
+            password_confirmation: '12345',
+            password1: '123456',
+            password1_confirmatio: '123456',
+            password2: '123456',
+            password2_confirmation: '123456',
+          };
+          const rules = {
+            password: 'required|confirmed',
+            password1: 'required|confirmed',
+            password2: 'required|confirmed',
+          };
+          const expected = [
+            { code: 'invalid', field: 'password', message: 'The two input shoud be equal' },
+            { code: 'invalid', field: 'password1', message: 'The two input shoud be equal' },
+          ];
+          await expect(validation.validate(values, rules)).resolves.toEqual(expected);
+        });
+        test('use custom field name', async () => {
+          expect.assertions(1);
+          const values = {
+            password: '123456',
+            password_again: '12345',
+            password1: '123456',
+            password1_agai: '123456',
+            password2: '123456',
+            password2_again: '123456',
+          };
+          const rules = {
+            password: 'required|confirmed:"password_again"',
+            password1: 'required|confirmed:"password1_again"',
+            password2: 'required|confirmed:"password2_again"',
+          };
+          const expected = [
+            { code: 'invalid', field: 'password', message: 'The two input shoud be equal' },
+            { code: 'invalid', field: 'password1', message: 'The two input shoud be equal' },
+          ];
+          await expect(validation.validate(values, rules)).resolves.toEqual(expected);
         });
       });
     });
