@@ -1017,10 +1017,6 @@ describe('validation', () => {
       expect(() => {
         validation.addMessage('captcha', () => {});
       }).toThrowError('Message should be a string');
-      expect(() => {
-        validation.addMessage('required', 'another message');
-      }).toThrowError('Message required has existed. Use validate function param instead.');
     });
   });
 });
-
