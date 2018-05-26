@@ -135,6 +135,39 @@ describe('validation', () => {
         });
       });
 
+      describe('alphanum', () => {
+        test('true', () => {
+          expect.assertions(1);
+          const values = {
+            username: 'admin12',
+          };
+          const rules = {
+            username: {
+              required: true,
+              alphanum: true,
+            },
+          };
+          return expect(validation.validate(values, rules)).resolves.toBeUndefined();
+        });
+        test('{ len: 6 }', () => {
+          expect.assertions(1);
+          const values = {
+            username: 'admi9',
+          };
+          const rules = {
+            username: {
+              required: true,
+              alphanum: { len: 6 },
+            },
+          };
+          const messages = {
+            'username.alphanum': 'The field only contains ${len} letters.',
+          };
+          const expected = [{ code: 'invalid', field: 'username', message: 'The field only contains 6 letters.' }];
+          return expect(validation.validate(values, rules, messages)).resolves.toEqual(expected);
+        });
+      });
+
       describe('regexp', () => {
         test('no regexp should throw an exception', async () => {
           expect.assertions(1);
@@ -589,6 +622,48 @@ describe('validation', () => {
           };
           const messages = {
             'username.alpha': 'The field only contains 6 letters.',
+          };
+          const expected = [{ code: 'invalid', field: 'username', message: 'The field only contains 6 letters.' }];
+          return expect(validation.validate(values, rules, messages)).resolves.toEqual(expected);
+        });
+      });
+
+      describe('alphanum', () => {
+        test('true', () => {
+          expect.assertions(1);
+          const values = {
+            username: 'admin9',
+          };
+          const rules = {
+            username: 'required:true|alphanum:true',
+          };
+          return expect(validation.validate(values, rules)).resolves.toBeUndefined();
+        });
+        test('{ len: 6 }', () => {
+          expect.assertions(1);
+          const values = {
+            username: 'admi6',
+          };
+          const rules = {
+            username: 'required:true|alphanum:len=6',
+          };
+          const messages = {
+            'username.alphanum': 'The field only contains ${len} letters.',
+          };
+          const expected = [{ code: 'invalid', field: 'username', message: 'The field only contains 6 letters.' }];
+          return expect(validation.validate(values, rules, messages)).resolves.toEqual(expected);
+        });
+
+        test('alphanum:6', () => {
+          expect.assertions(1);
+          const values = {
+            username: 'admin',
+          };
+          const rules = {
+            username: 'required:true|alphanum:6',
+          };
+          const messages = {
+            'username.alphanum': 'The field only contains 6 letters.',
           };
           const expected = [{ code: 'invalid', field: 'username', message: 'The field only contains 6 letters.' }];
           return expect(validation.validate(values, rules, messages)).resolves.toEqual(expected);
