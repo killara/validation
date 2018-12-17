@@ -44,7 +44,7 @@ const rules = {
 };
 
 const messages = {
-  'username.alpha': 'The field must be entirely alphabetic characters with the length of ${len}'
+  'username.alpha': 'The field must be entirely alphabetic characters',
   'sex.in': 'The field should be included in the list of ${ _items_.join(", ") }'
 };
 
